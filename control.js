@@ -247,6 +247,7 @@ function PublicActionListener(user1,user2){
             if(actionList[","]){
                     fist2.classList.remove("fist")
                     if(p1Position<p2Position){
+                            console.log("reverse")
                             fist2.classList.add("punchReverse")
                             const p =document.getElementsByClassName("punchReverse")[0]
                             if(f2Pl<=p1r&&f2Pl>=p1l&&f2Pb>=p1t&&f2Pb<=p1b&&f2Pt<=p1b){
@@ -266,12 +267,13 @@ function PublicActionListener(user1,user2){
 
                     }
                     if(p1Position>p2Position){
-                        fist2.classList.add("punch")
+                        console.log("reverse")
+                            fist1.classList.add("punch")
                             const p =document.getElementsByClassName("punch")[0]
-                                if(f2Pr>=p1l&&f2Pr<=p1r&&(f2Pb>=p1t&&f2Pb<=p1b&&f2Pt<=p1b)){
+                            if(f2Pl<=p1r&&f2Pl>=p1l&&f2Pb>=p1t&&f2Pb<=p1b&&f2Pt<=p1b){
                                     attackCounter2+=1
                                     if(attackCounter2==1){
-                                        user1.setHP(user1.getHP()-user2.getFA())
+                                        user2.setHP(user1.getHP()-user2.getFA())
                                         console.log("user1 HP: "+user1.getHP())
                                     }
                                     
@@ -280,10 +282,56 @@ function PublicActionListener(user1,user2){
                                 attackCounter2=0
                                 fist2.classList.remove("punch")
                                 fist2.classList.add("fist")
+                            
                         })
                     }
                  
             }
+
+            if(actionList["."]){
+                leg2.classList.remove("leg")
+                if(p1Position<p2Position){
+
+                    leg2.classList.add("kickReverse")
+                    const L =document.getElementsByClassName("kickReverse")[0]
+                    if(L2Pl<=p1r&&L2Pl>=p1l&&L2Pb>=p1t&&L2Pb<=p1b&&L2Pt<=p1b){
+                        attackCounter2+=1
+                        if(attackCounter2==1){
+                            user1.setHP(user1.getHP()-user2.getKA())
+                            console.log("user1 HP: "+user1.getHP())
+                        }
+                                    
+                    }
+                    L.addEventListener("animationend",function rmKick(){
+                                attackCounter2=0
+                                leg2.classList.remove("kickReverse")
+                                leg2.classList.add("leg")
+                     })
+
+
+
+                             
+                }
+                if(p1Position<p2Position){
+                    leg2.classList.add("kick")
+                    const L =document.getElementsByClassName("kick")[0]
+                    if(L2Pr>=p1l&&L2Pr<=p1r&&(L2Pb>=p1t&&L2Pb<=p1b&&L2Pt<=p1b)){
+                        attackCounter2+=1
+                        if(attackCounter2==1){
+                            user1.setHP(user1.getHP()-user2.getKA())
+                            console.log("user1 HP: "+user1.getHP())
+                        }
+                                    
+                    }
+                    L.addEventListener("animationend",function rmKick(){
+                                attackCounter2=0
+                                leg2.classList.remove("kick")
+                                leg2.classList.add("leg")
+                     })          
+                }
+            }
+
+
             if(actionList["s"]==false){
                     player1.classList.remove("dodge")
                     player1.classList.add("idle")
