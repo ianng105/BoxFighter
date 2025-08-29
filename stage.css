@@ -74,12 +74,12 @@ body {
 }
 .punch {
   animation-name: Punch;
-  animation-duration: 0.5s;
+  animation-duration: 0.25s;
 }
 
 .punchReverse {
   animation-name: PunchReverse;
-  animation-duration: 0.5s;
+  animation-duration: 0.25s;
 }
 
 .leg {
@@ -97,6 +97,26 @@ body {
   animation-duration: 0.5s;
 }
 
+#p1hadoken {
+  position: absolute;
+}
+
+#p2hadoken {
+  position: absolute;
+}
+
+.hadokening {
+  background: aqua;
+  animation-name: Hadoken;
+  animation-duration: 0.85s;
+}
+
+.hadoKenReverse {
+  background: aqua;
+  animation-name: HadokenReverse;
+  animation-duration: 0.85s;
+}
+
 @keyframes Kick {
   0% {
     height: 50px;
@@ -111,7 +131,7 @@ body {
     width: 500px;
     transform: translateX(150px);
   }
-  45% {
+  50% {
     width: 500px;
     transform: translateX(150px);
   }
@@ -137,7 +157,7 @@ body {
     transform: translateX(-150px);
   }
 
-  45% {
+  50% {
     width: 500px;
     transform: translateX(-150px);
   }
@@ -181,6 +201,38 @@ body {
     width: 0px;
     height: 50px;
     padding-left: 0px;
+  }
+}
+
+@keyframes Hadoken {
+  0% {
+    width: 50px;
+    height: 50px;
+  }
+  10% {
+    width: 50px;
+    height: 50px;
+  }
+  100% {
+    width: 50px;
+    height: 50px;
+    transform: translateX(2000px);
+  }
+}
+
+@keyframes HadokenReverse {
+  0% {
+    width: 50px;
+    height: 50px;
+  }
+  20% {
+    width: 50px;
+    height: 50px;
+  }
+  100% {
+    width: 50px;
+    height: 50px;
+    transform: translateX(-2000px);
   }
 }
 
