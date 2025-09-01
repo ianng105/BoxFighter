@@ -78,6 +78,8 @@ function PublicActionListener(user1, user2) {
   let actionGate1 = 0;
   let actionGate2 = 0;
 
+  let isGuard1=false
+  let isGuard2=false
 
   let isHadokening1=false
   let isHadokening2=false
@@ -127,11 +129,11 @@ function PublicActionListener(user1, user2) {
     let p2Position = parseFloat(
       window.getComputedStyle(player2).getPropertyValue("margin-left")
     );
-
+/*
     for(let i=0;i<Object.keys(actionList).length;i++){
       console.log(Object.keys(actionList)+": "+Object.values(actionList))
     }
-
+*/
 
 
 
@@ -192,8 +194,21 @@ function PublicActionListener(user1, user2) {
 
           attackCounter1 += 1;
           if (attackCounter1 == 1) {
-            user2.setHP(user2.getHP() - user1.getFA());
-            console.log("user2 HP: " + user2.getHP());
+            if(actionList["ArrowRight"]){
+              isGuard2=true
+              player2.style.background="dodgerblue"
+              setTimeout(function(){
+                player2.style.background="#fa0505"
+                console.log("function works")
+                isGuard2=false },500  
+                
+              )
+            }
+            else{
+              user2.setHP(user2.getHP() - user1.getFA());
+              console.log("user2 HP: " + user2.getHP());
+            }
+
           }
         }
 
@@ -206,8 +221,21 @@ function PublicActionListener(user1, user2) {
           if (f1Pl <= p2r &&f1Pl >= p2l &&f1Pb >= p2t &&f1Pb <= p2b &&f1Pt <= p2b) {
             attackCounter1 += 1;
             if (attackCounter1 == 1) {
+              if(actionList["ArrowLeft"]){
+              isGuard2=true
+              player2.style.background="dodgerblue"
+              setTimeout(function(){
+                player2.style.background="#fa0505"
+                console.log("function works")
+                isGuard2=false },500  
+                
+              )
+            }
+            else{
               user2.setHP(user2.getHP() - user1.getFA());
               console.log("user2 HP: " + user2.getHP());
+            }
+              
             }
           }
 
@@ -397,7 +425,7 @@ function PublicActionListener(user1, user2) {
       player2.classList.add("dodge");
     }
     if (actionList["ArrowRight"]) {
-        if(actionGate2==0){
+        if(actionGate2==0&&isGuard2==false){
             console.log("ArrowRight");
             let WalkDistance =
                 parseFloat(
@@ -408,7 +436,7 @@ function PublicActionListener(user1, user2) {
       
     }
     if (actionList["ArrowLeft"]) {
-        if(actionGate2==0){
+        if(actionGate2==0&&isGuard2==false){
             console.log("ArrowLeft");
             let Walkdistance =
                 parseFloat(
@@ -435,8 +463,21 @@ function PublicActionListener(user1, user2) {
                 attackCounter2 += 1;
                 /**/ console.log(attackCounter2);
                 if (attackCounter2 == 1) {
+                  if(actionList["a"]){
+                    isGuard1=true
+                    player1.style.background="dodgerblue"
+                    setTimeout(function(){
+                      player1.style.background="#ffff"
+                      console.log("function works")
+                      isGuard1=false },500  
+                      
+                    )
+                 }
+                 else{
                     user1.setHP(user1.getHP() - user2.getFA());
                     console.log("user1 HP: " + user1.getHP());
+                 }
+
                 }
                 }
 
@@ -454,8 +495,21 @@ function PublicActionListener(user1, user2) {
                 ) {
                 attackCounter2 += 1;
                 if (attackCounter2 == 1) {
+                    if(actionList["d"]){
+                    isGuard1=true
+                    player1.style.background="dodgerblue"
+                    setTimeout(function(){
+                      player1.style.background="#ffff"
+                      console.log("function works")
+                      isGuard1=false },500  
+                      
+                    )
+                 }
+                 else{
                     user1.setHP(user1.getHP() - user2.getFA());
                     console.log("user1 HP: " + user1.getHP());
+                 }
+                    
                 }
                 }
 
