@@ -127,11 +127,11 @@ body {
     width: 0px;
   }
 
-  40% {
+  25% {
     width: 500px;
     transform: translateX(150px);
   }
-  50% {
+  55% {
     width: 500px;
     transform: translateX(150px);
   }
@@ -152,12 +152,12 @@ body {
     height: 50px;
   }
 
-  40% {
+  25% {
     width: 500px;
     transform: translateX(-150px);
   }
 
-  50% {
+  55% {
     width: 500px;
     transform: translateX(-150px);
   }

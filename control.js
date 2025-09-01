@@ -79,6 +79,9 @@ function PublicActionListener(user1, user2) {
   let actionGate2 = 0;
 
 
+  let isHadokening1=false
+  let isHadokening2=false
+
   setInterval(() => {
     let p1r = player1.getBoundingClientRect().right;
     let p2r = player2.getBoundingClientRect().right;
@@ -116,7 +119,7 @@ function PublicActionListener(user1, user2) {
     let HDKt_2 = hdk2.getBoundingClientRect().top;
     let HDKb_2 = hdk2.getBoundingClientRect().bottom;
 
-
+    console.log("action gate : "+actionGate1)
 
     let p1Position = parseFloat(
       window.getComputedStyle(player1).getPropertyValue("margin-left")
@@ -124,6 +127,12 @@ function PublicActionListener(user1, user2) {
     let p2Position = parseFloat(
       window.getComputedStyle(player2).getPropertyValue("margin-left")
     );
+
+    for(let i=0;i<Object.keys(actionList).length;i++){
+      console.log(Object.keys(actionList)+": "+Object.values(actionList))
+    }
+
+
 
 
 //Player 1 walk forward
@@ -173,7 +182,6 @@ function PublicActionListener(user1, user2) {
           actionGate1 += 1;
           fist1.classList.add("punch");
           const p = document.getElementsByClassName("punch")[0];
-          console.log("checking")
           if (
             f1Pr >= p2l &&
             f1Pr <= p2r &&
@@ -188,14 +196,7 @@ function PublicActionListener(user1, user2) {
             console.log("user2 HP: " + user2.getHP());
           }
         }
-        p.addEventListener("animationend", function rmPunch() {
-            attackCounter1 = 0;
-            fist1.classList.remove("punch");
-            fist1.classList.add("fist");
-            actionGate1=0
-            animationGate1=true
-          
-          });
+
 // Reverse
         }
         if (p1Position > p2Position) {
@@ -203,22 +204,34 @@ function PublicActionListener(user1, user2) {
           fist1.classList.add("punchReverse");
           const p = document.getElementsByClassName("punchReverse")[0];
           if (f1Pl <= p2r &&f1Pl >= p2l &&f1Pb >= p2t &&f1Pb <= p2b &&f1Pt <= p2b) {
-            /* */console.log("it works")
             attackCounter1 += 1;
             if (attackCounter1 == 1) {
               user2.setHP(user2.getHP() - user1.getFA());
               console.log("user2 HP: " + user2.getHP());
             }
           }
-          p.addEventListener("animationend", function rmPunch() {
-            attackCounter1 = 0;
-            fist1.classList.remove("punchReverse");
-            fist1.classList.add("fist");
-            actionGate1 = 0;
-          });
+
         }
       
     }
+
+
+    if(actionList["c"]==false){
+      if(p1Position<=p2Position){
+        fist1.classList.remove("punch");
+        fist1.classList.add("fist");
+        attackCounter1 = 0;
+        actionGate1=0
+      }
+      else{
+            fist1.classList.remove("punchReverse");
+            fist1.classList.add("fist");
+            attackCounter1 = 0;
+            actionGate1=0
+      }
+
+    }
+
 
     if (actionList["v"]) {
         actionGate1+=1
@@ -239,16 +252,12 @@ function PublicActionListener(user1, user2) {
               console.log("user2 HP: " + user2.getHP());
             }
           }
-          L.addEventListener("animationend", function rmKick() {
-            attackCounter1 = 0;
-            leg1.classList.remove("kick");
-            leg1.classList.add("leg");
-            actionGate1 = 0;
-          });
+          
         }
         if (p1Position > p2Position) {
           leg1.classList.add("kickReverse");
           const L = document.getElementsByClassName("kickReverse")[0];
+          
           if (
             L1Pl <= p2r &&
             L1Pl >= p2l &&
@@ -262,31 +271,99 @@ function PublicActionListener(user1, user2) {
               console.log("user2 HP: " + user2.getHP());
             }
           }
-          L.addEventListener("animationend", function rmKick() {
+          
+        }
+      
+    }
+    if(actionList["v"]==false){
+      if(p1Position<=p2Position){
+        attackCounter1 = 0;
+        leg1.classList.remove("kick");
+        leg1.classList.add("leg");
+        actionGate1 = 0;
+      }
+      else{
             attackCounter1 = 0;
             leg1.classList.remove("kickReverse");
             leg1.classList.add("leg");
             actionGate1=0
-          });
+      }
+
+    }
+
+
+
+
+    if(actionList["b"]) {
+      console.log("b");
+        actionGate1+=1
+        hdk1.classList.remove("hadoken");
+        isHadokening1=true
+        if (p1Position <= p2Position&&attackCounter1==0) {
+
+          hdk1.classList.add("hadokening");
+          const h = document.getElementsByClassName("hadokening")[0];
+            h.addEventListener("animationend", function rmhadoken() {
+                    isHadokening1=false
+                    attackCounter1 = 0;
+                    actionGate1=0
+                    hdk1.classList.remove("hadokening");
+                    hdk1.classList.add("hadoken");
+                    h.style.opacity="1"
+              
+            
+
+            });
+          
+        }
+        if (p1Position > p2Position&&attackCounter1==0) {
+          console.log("hadoken")
+          hdk1.classList.add("hadoKenReverse");
+          const h = document.getElementsByClassName("hadoKenReverse")[0];
+              h.addEventListener("animationend", function rmhadoken() {
+                isHadokening1=false
+                attackCounter1 = 0;
+                hdk1.classList.remove("hadoKenReverse");
+                hdk1.classList.add("hadoken");
+                h.style.opacity="1"
+                actionGate1=0
+              });
         }
       
     }
 
-    if (actionList["b"]) {
-      console.log("b");
-        actionGate1+=1
-        hdk1.classList.remove("hadoken");
-
-        if (p1Position <= p2Position&&attackCounter1==0) {
-          hdk1.classList.add("hadokening");
-          const h = document.getElementsByClassName("hadokening")[0];
-          if (
+    if(actionList["b"]==false&&isHadokening1==true){
+      if (p1Position <= p2Position&&attackCounter1==0){
+        const h = document.getElementsByClassName("hadokening")[0];
+        if (
             HDKr_1 >= p2l &&
             HDKr_1 <= p2r &&
             HDKb_1 >= p2t &&
             HDKb_1 <= p2b &&
+            HDKt_1 <= p2b){
+              attackCounter1 += 1;
+              console.log(attackCounter1)
+              if (attackCounter1 == 1) {
+                user2.setHP(user2.getHP() - user1.getHadoken());
+                console.log("user2 HP: " + user2.getHP());
+                console.log("change back to zero")
+                actionGate1=0
+                h.style.opacity="0"
+              }
+          }
+      }
+      
+    
+      if (p1Position > p2Position&&attackCounter1==0){
+        const h = document.getElementsByClassName("hadoKenReverse")[0];
+        if(
+            HDKl_1 >= p2l &&
+            HDKl_1 <= p2r &&
+            HDKb_1 >= p2t &&
+            HDKb_1 <= p2b &&
             HDKt_1 <= p2b
-          ) {
+            )
+           {
             attackCounter1 += 1;
             console.log(attackCounter1)
             if (attackCounter1 == 1) {
@@ -299,48 +376,10 @@ function PublicActionListener(user1, user2) {
             }
 
           }
-            h.addEventListener("animationend", function rmhadoken() {
-            attackCounter1 = 0;
-            hdk1.classList.remove("hadokening");
-            hdk1.classList.add("hadoken");
-            h.style.opacity="1"
-            actionGate1=0
-            });
-          
-        }
-        if (p1Position > p2Position&&attackCounter1==0) {
-          console.log("hadoken")
-          hdk1.classList.add("hadoKenReverse");
-          const h = document.getElementsByClassName("hadoKenReverse")[0];
-          if (
-            HDKl_1 >= p2l &&
-            HDKl_1 <= p2r &&
-            HDKb_1 >= p2t &&
-            HDKb_1 <= p2b &&
-            HDKt_1 <= p2b
-          ) {
-            attackCounter1 += 1;
-            console.log("tracking reverse"+attackCounter1)
-            if (attackCounter1 == 1) {
-              user2.setHP(user2.getHP() - user1.getHadoken());
-              console.log("user2 HP: " + user2.getHP());
-              console.log("change back to zero")
-              actionGate1=0
-              h.style.opacity="0"
+      }
 
-            }
-
-          }
-              h.addEventListener("animationend", function rmhadoken() {
-              attackCounter1 = 0;
-              hdk1.classList.remove("hadoKenReverse");
-              hdk1.classList.add("hadoken");
-              h.style.opacity="1"
-              actionGate1=0
-              });
-        }
-      
     }
+
 
     if (actionList["ArrowUp"]) {
       console.log("up presseed");
@@ -400,12 +439,7 @@ function PublicActionListener(user1, user2) {
                     console.log("user1 HP: " + user1.getHP());
                 }
                 }
-                p.addEventListener("animationend", function rmPunch() {
-                attackCounter2 = 0;
-                fist2.classList.remove("punchReverse");
-                fist2.classList.add("fist");
-                actionGate2=0
-                });
+
             }
             if (p1Position > p2Position) {
                 actionGate2+=1
@@ -424,16 +458,27 @@ function PublicActionListener(user1, user2) {
                     console.log("user1 HP: " + user1.getHP());
                 }
                 }
-                p.addEventListener("animationend", function rmPunch() {
-                attackCounter2 = 0;
-                fist2.classList.remove("punch");
-                fist2.classList.add("fist");
-                actionGate2=0
-                });
+
             }
-        
-      
+  
     }
+    if(actionList[","]==false){
+      if(p1Position>p2Position){
+        fist2.classList.remove("punch");
+        fist2.classList.add("fist");
+        attackCounter2 = 0;
+        actionGate2=0
+      }
+      else{
+            fist2.classList.remove("punchReverse");
+            fist2.classList.add("fist");
+            attackCounter2 = 0;
+            actionGate2=0
+      }
+
+    }
+
+
 
     if (actionList["."]) {
             actionGate2+=1
@@ -454,12 +499,7 @@ function PublicActionListener(user1, user2) {
                     console.log("user1 HP: " + user1.getHP());
                 }
                 }
-                L.addEventListener("animationend", function rmKick() {
-                attackCounter2 = 0;
-                leg2.classList.remove("kickReverse");
-                leg2.classList.add("leg");
-                actionGate2=0
-                });
+ 
             }
             if (p1Position > p2Position) {
                 leg2.classList.add("kick");
@@ -477,69 +517,101 @@ function PublicActionListener(user1, user2) {
                     console.log("user1 HP: " + user1.getHP());
                 }
                 }
-                L.addEventListener("animationend", function rmKick() {
-                attackCounter2 = 0;
-                leg2.classList.remove("kick");
-                leg2.classList.add("leg");
-                actionGate2=0
-                });
+
             }
         
       
     }
+    if(actionList["."]==false){
+      if(p1Position>=p2Position){
+        attackCounter2 = 0;
+        leg2.classList.remove("kick");
+        leg2.classList.add("leg");
+        actionGate2 = 0;
+      }
+      else{
+        attackCounter2 = 0;
+        leg2.classList.remove("kickReverse");
+        leg2.classList.add("leg");
+        actionGate2=0
+      }
 
-        if (actionList["/"]) {
-        console.log("/");
+    }
+
+      if(actionList["/"]) {
+      console.log("/");
         actionGate2+=1
         hdk2.classList.remove("hadoken");
+        isHadokening2=true
+        if (p1Position >p2Position&&attackCounter2==0) {
 
-        if (p2Position < p1Position&&attackCounter2==0) {
           hdk2.classList.add("hadokening");
           const h = document.getElementsByClassName("hadokening")[0];
-          if (
+            h.addEventListener("animationend", function rmhadoken() {
+                    isHadokening2=false
+                    attackCounter2 = 0;
+                    actionGate2=0
+                    hdk2.classList.remove("hadokening");
+                    hdk2.classList.add("hadoken");
+                    h.style.opacity="1"
+              
+            
+
+            });
+          
+        }
+        if (p1Position <= p2Position&&attackCounter2==0) {
+          console.log("hadoken")
+          hdk2.classList.add("hadoKenReverse");
+          const h = document.getElementsByClassName("hadoKenReverse")[0];
+              h.addEventListener("animationend", function rmhadoken() {
+                isHadokening2=false
+                attackCounter2 = 0;
+                hdk2.classList.remove("hadoKenReverse");
+                hdk2.classList.add("hadoken");
+                h.style.opacity="1"
+                actionGate2=0
+              });
+        }
+      
+    }
+
+    if(actionList["/"]==false&&isHadokening2==true){
+      if (p1Position > p2Position&&attackCounter1==0){
+        const h = document.getElementsByClassName("hadokening")[0];
+        if (
             HDKr_2 >= p1l &&
             HDKr_2 <= p1r &&
             HDKb_2 >= p1t &&
             HDKb_2 <= p1b &&
-            HDKt_2 <= p1b
-          ) {
-            attackCounter2 += 1;
-            console.log(attackCounter1)
-            if (attackCounter2 == 2) {
-              user1.setHP(user1.getHP() - user2.getHadoken());
-              console.log("user2 HP: " + user1.getHP());
-              console.log("change back to zero")
-              actionGate2=0
-              h.style.opacity="0"
-
-            }
-
+            HDKt_2 <= p1b){
+              attackCounter2 += 1;
+              if (attackCounter2 == 1) {
+                user1.setHP(user1.getHP() - user2.getHadoken());
+                console.log("user1 HP: " + user1.getHP());
+                console.log("change back to zero")
+                actionGate2=0
+                h.style.opacity="0"
+              }
           }
-            h.addEventListener("animationend", function rmhadoken() {
-            attackCounter2 = 0;
-            hdk2.classList.remove("hadokening");
-            hdk2.classList.add("hadoken");
-            h.style.opacity="1"
-            actionGate2=0
-            });
-          
-        }
-        if (p2Position >= p1Position&&attackCounter2==0) {
-          console.log("hadoken")
-          hdk2.classList.add("hadoKenReverse");
-          const h = document.getElementsByClassName("hadoKenReverse")[0];
-          if (
+      }
+      
+    
+      if (p1Position <= p2Position&&attackCounter1==0){
+        const h = document.getElementsByClassName("hadoKenReverse")[0];
+        if(
             HDKl_2 >= p1l &&
             HDKl_2 <= p1r &&
             HDKb_2 >= p1t &&
             HDKb_2 <= p1b &&
             HDKt_2 <= p1b
-          ) {
+            )
+           {
             attackCounter2 += 1;
-            console.log("tracking reverse"+attackCounter2)
+            console.log(attackCounter2)
             if (attackCounter2 == 1) {
               user1.setHP(user1.getHP() - user2.getHadoken());
-              console.log("user2 HP: " + user1.getHP());
+              console.log("user1 HP: " + user1.getHP());
               console.log("change back to zero")
               actionGate2=0
               h.style.opacity="0"
@@ -547,16 +619,11 @@ function PublicActionListener(user1, user2) {
             }
 
           }
-              h.addEventListener("animationend", function rmhadoken() {
-              attackCounter2 = 0;
-              hdk2.classList.remove("hadoKenReverse");
-              hdk2.classList.add("hadoken");
-              h.style.opacity="1"
-              actionGate2=0
-              });
-        }
-      
+      }
+
     }
+
+
 
     if (actionList["s"] == false) {
       player1.classList.remove("dodge");
