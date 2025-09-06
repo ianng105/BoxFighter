@@ -78,6 +78,10 @@ function PublicActionListener(user1, user2) {
   let actionGate1 = 0;
   let actionGate2 = 0;
 
+  let isKicking1=false;
+  let isKicking2s=false;
+
+
   let isGuard1=false
   let isGuard2=false
 
@@ -140,7 +144,7 @@ function PublicActionListener(user1, user2) {
 //Player 1 walk forward
     if (actionList["d"]) {
       console.log("d");
-      if (actionGate1 == 0) {
+      if (actionGate1 == 0&&isGuard1==false) {
         let walkDistance =
           parseFloat(
             window.getComputedStyle(player1).getPropertyValue("margin-left")
@@ -151,7 +155,7 @@ function PublicActionListener(user1, user2) {
 //Player 1 walk backward
     if (actionList["a"]) {
       console.log("a");
-      if (actionGate1 == 0) {
+      if (actionGate1 == 0&&isGuard1==false) {
         let walkdistance =
           parseFloat(
             window.getComputedStyle(player1).getPropertyValue("margin-left")
@@ -200,7 +204,8 @@ function PublicActionListener(user1, user2) {
               setTimeout(function(){
                 player2.style.background="#fa0505"
                 console.log("function works")
-                isGuard2=false },500  
+                isGuard2=false 
+                 },500  
                 
               )
             }
@@ -245,7 +250,7 @@ function PublicActionListener(user1, user2) {
 
 
     if(actionList["c"]==false){
-      if(p1Position<=p2Position){
+       if(p1Position<=p2Position){
         fist1.classList.remove("punch");
         fist1.classList.add("fist");
         attackCounter1 = 0;
@@ -260,8 +265,11 @@ function PublicActionListener(user1, user2) {
 
     }
 
+  if(actionList["v"]){
+    isKicking1=true
+  }
 
-    if (actionList["v"]) {
+   if (actionList["v"]==false&&isKicking1==true) {
         actionGate1+=1
         leg1.classList.remove("leg");
         if (p1Position <= p2Position) {
@@ -276,10 +284,32 @@ function PublicActionListener(user1, user2) {
           ) {
             attackCounter1 += 1;
             if (attackCounter1 == 1) {
+              
+            if(actionList["ArrowRight"]){
+              isGuard2=true
+              player2.style.background="dodgerblue"
+              setTimeout(function(){
+                player2.style.background="#fa0505"
+                console.log("function works")
+                isGuard2=false 
+                 },500  
+                
+              )
+            }
+            else{
               user2.setHP(user2.getHP() - user1.getKA());
               console.log("user2 HP: " + user2.getHP());
             }
+              
+            }
           }
+          L.addEventListener("animationend",function rmKicking(){
+              attackCounter1 = 0;
+              leg1.classList.remove("kick");
+              leg1.classList.add("leg");
+              actionGate1 = 0;
+              isKicking1=false
+          })
           
         }
         if (p1Position > p2Position) {
@@ -295,29 +325,36 @@ function PublicActionListener(user1, user2) {
           ) {
             attackCounter1 += 1;
             if (attackCounter1 == 1) {
+              if(actionList["ArrowLeft "]){
+              isGuard2=true
+              player2.style.background="dodgerblue"
+              setTimeout(function(){
+                player2.style.background="#fa0505"
+                console.log("function works")
+                isGuard2=false 
+                 },500  
+                
+              )
+            }
+            else{
               user2.setHP(user2.getHP() - user1.getKA());
               console.log("user2 HP: " + user2.getHP());
             }
+              
+            }
           }
-          
-        }
-      
-    }
-    if(actionList["v"]==false){
-      if(p1Position<=p2Position){
-        attackCounter1 = 0;
-        leg1.classList.remove("kick");
-        leg1.classList.add("leg");
-        actionGate1 = 0;
-      }
-      else{
+          L.addEventListener("animationend",function rmKicking(){
             attackCounter1 = 0;
             leg1.classList.remove("kickReverse");
             leg1.classList.add("leg");
             actionGate1=0
-      }
-
+            isKicking1=false
+          })
+        }
+      
     }
+    
+    
 
 
 
@@ -372,8 +409,22 @@ function PublicActionListener(user1, user2) {
               attackCounter1 += 1;
               console.log(attackCounter1)
               if (attackCounter1 == 1) {
-                user2.setHP(user2.getHP() - user1.getHadoken());
-                console.log("user2 HP: " + user2.getHP());
+                if(actionList["ArrowRight"]){
+                  isGuard2=true
+                  player2.style.background="dodgerblue"
+                  setTimeout(function(){
+                    player2.style.background="#fa0505"
+                    console.log("function works")
+                    isGuard2=false 
+                      },500  
+                    
+                  )
+                }
+                else{
+                    user2.setHP(user2.getHP() - user1.getHadoken());
+                    console.log("user2 HP: " + user2.getHP());
+                }
+
                 console.log("change back to zero")
                 actionGate1=0
                 h.style.opacity="0"
@@ -395,8 +446,22 @@ function PublicActionListener(user1, user2) {
             attackCounter1 += 1;
             console.log(attackCounter1)
             if (attackCounter1 == 1) {
-              user2.setHP(user2.getHP() - user1.getHadoken());
-              console.log("user2 HP: " + user2.getHP());
+              if(actionList["ArrowLeft "]){
+                isGuard2=true
+                player2.style.background="dodgerblue"
+                setTimeout(function(){
+                  player2.style.background="#fa0505"
+                  console.log("function works")
+                  isGuard2=false 
+                  },500  
+                  
+                )
+              }
+              else{
+                user2.setHP(user2.getHP() - user1.getHadoken());
+                console.log("user2 HP: " + user2.getHP());
+              }
+              
               console.log("change back to zero")
               actionGate1=0
               h.style.opacity="0"
