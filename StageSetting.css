@@ -1,28 +1,33 @@
-#header{
-    width:100vw;
-    height:250px;
-    position:absolute;
-    z-index: 2;
-    display:flex;
-    justify-content: center;
-    align-items: center;
+#header {
+  width: 100vw;
+  height: 250px;
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#timerContainer{
-    width:200px;
-    height:100px;
+#timerContainer {
+  width: 200px;
+  height: 100px;
 }
 
-.HPbar{
-    width:800px;
-    height:40px;
-    background: darkgrey;
+.HPbar {
+  width: 800px;
+  height: 40px;
+  background: darkgrey;
 }
 
-.HP{
-    width:800px;
-    height:40px;
-    background: rgb(3, 253, 16);
+.HP {
+  height: 40px;
+  background: rgb(3, 253, 16);
 }
 
+#HP1 {
+  width: 800px;
+}
 
+#HP2 {
+  width: 800px;
+}

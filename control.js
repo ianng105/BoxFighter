@@ -1,3 +1,4 @@
+
 class Character {
   constructor(isPlayer1) {
     this.hp = 2000;
@@ -212,6 +213,7 @@ function PublicActionListener(user1, user2) {
             else{
               user2.setHP(user2.getHP() - user1.getFA());
               console.log("user2 HP: " + user2.getHP());
+              Damage(user1,user2,true)
             }
 
           }
@@ -239,6 +241,7 @@ function PublicActionListener(user1, user2) {
             else{
               user2.setHP(user2.getHP() - user1.getFA());
               console.log("user2 HP: " + user2.getHP());
+              Damage(user1,user2,true)
             }
               
             }
@@ -299,6 +302,7 @@ function PublicActionListener(user1, user2) {
             else{
               user2.setHP(user2.getHP() - user1.getKA());
               console.log("user2 HP: " + user2.getHP());
+              Damage(user1,user2,true)
             }
               
             }
@@ -339,6 +343,7 @@ function PublicActionListener(user1, user2) {
             else{
               user2.setHP(user2.getHP() - user1.getKA());
               console.log("user2 HP: " + user2.getHP());
+              Damage(user1,user2,true)
             }
               
             }
@@ -423,6 +428,8 @@ function PublicActionListener(user1, user2) {
                 else{
                     user2.setHP(user2.getHP() - user1.getHadoken());
                     console.log("user2 HP: " + user2.getHP());
+                    Damage(user1,user2,true)
+
                 }
 
                 console.log("change back to zero")
@@ -460,6 +467,7 @@ function PublicActionListener(user1, user2) {
               else{
                 user2.setHP(user2.getHP() - user1.getHadoken());
                 console.log("user2 HP: " + user2.getHP());
+                Damage(user1,user2,true)
               }
               
               console.log("change back to zero")
@@ -541,6 +549,7 @@ function PublicActionListener(user1, user2) {
                  else{
                     user1.setHP(user1.getHP() - user2.getFA());
                     console.log("user1 HP: " + user1.getHP());
+                    Damage(user1,user2,false)
                  }
 
                 }
@@ -573,6 +582,7 @@ function PublicActionListener(user1, user2) {
                  else{
                     user1.setHP(user1.getHP() - user2.getFA());
                     console.log("user1 HP: " + user1.getHP());
+                    Damage(user1,user2,false)
                  }
                     
                 }
