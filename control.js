@@ -80,7 +80,7 @@ function PublicActionListener(user1, user2) {
   let actionGate2 = 0;
 
   let isKicking1=false;
-  let isKicking2s=false;
+  let isKicking2=false;
 
 
   let isGuard1=false
@@ -126,7 +126,7 @@ function PublicActionListener(user1, user2) {
     let HDKt_2 = hdk2.getBoundingClientRect().top;
     let HDKb_2 = hdk2.getBoundingClientRect().bottom;
 
-    console.log("action gate : "+actionGate1)
+    //console.log("action gate : "+actionGate1)
 
     let p1Position = parseFloat(
       window.getComputedStyle(player1).getPropertyValue("margin-left")
@@ -214,6 +214,7 @@ function PublicActionListener(user1, user2) {
               user2.setHP(user2.getHP() - user1.getFA());
               console.log("user2 HP: " + user2.getHP());
               Damage(user1,user2,true)
+			  console.log("user 1 punch attack")
             }
 
           }
@@ -242,6 +243,8 @@ function PublicActionListener(user1, user2) {
               user2.setHP(user2.getHP() - user1.getFA());
               console.log("user2 HP: " + user2.getHP());
               Damage(user1,user2,true)
+			  console.log("user 1 punch attack reverse")
+
             }
               
             }
@@ -268,6 +271,8 @@ function PublicActionListener(user1, user2) {
 
     }
 
+
+//Player1 kick attack
   if(actionList["v"]){
     isKicking1=true
   }
@@ -303,6 +308,8 @@ function PublicActionListener(user1, user2) {
               user2.setHP(user2.getHP() - user1.getKA());
               console.log("user2 HP: " + user2.getHP());
               Damage(user1,user2,true)
+			  console.log("user 1 kick attack")
+
             }
               
             }
@@ -344,6 +351,8 @@ function PublicActionListener(user1, user2) {
               user2.setHP(user2.getHP() - user1.getKA());
               console.log("user2 HP: " + user2.getHP());
               Damage(user1,user2,true)
+			  console.log("user 1 kick attack reverse")
+
             }
               
             }
@@ -363,7 +372,7 @@ function PublicActionListener(user1, user2) {
 
 
 
-
+//Player 1 hadoken
     if(actionList["b"]) {
       console.log("b");
         actionGate1+=1
@@ -429,6 +438,8 @@ function PublicActionListener(user1, user2) {
                     user2.setHP(user2.getHP() - user1.getHadoken());
                     console.log("user2 HP: " + user2.getHP());
                     Damage(user1,user2,true)
+					console.log("user 1 hadoken attack")
+
 
                 }
 
@@ -468,6 +479,8 @@ function PublicActionListener(user1, user2) {
                 user2.setHP(user2.getHP() - user1.getHadoken());
                 console.log("user2 HP: " + user2.getHP());
                 Damage(user1,user2,true)
+				console.log("user 1 hadoken attack reverse")
+
               }
               
               console.log("change back to zero")
@@ -481,7 +494,7 @@ function PublicActionListener(user1, user2) {
 
     }
 
-
+//Player2 movement
     if (actionList["ArrowUp"]) {
       console.log("up presseed");
       player2.classList.remove("idle");
@@ -519,6 +532,8 @@ function PublicActionListener(user1, user2) {
         }
       
     }
+	
+//Player2 punch attack	
     if (actionList[","]) {
             fist2.classList.remove("fist");
             if (p1Position <= p2Position) {
@@ -591,6 +606,8 @@ function PublicActionListener(user1, user2) {
             }
   
     }
+	
+
     if(actionList[","]==false){
       if(p1Position>p2Position){
         fist2.classList.remove("punch");
@@ -608,65 +625,97 @@ function PublicActionListener(user1, user2) {
     }
 
 
+//Player 2 kick attack
+  if(actionList["."]){
+    isKicking2=true
+  }
 
-    if (actionList["."]) {
-            actionGate2+=1
-            leg2.classList.remove("leg");
-            if (p1Position <= p2Position) {
-                leg2.classList.add("kickReverse");
-                const L = document.getElementsByClassName("kickReverse")[0];
-                if (
-                L2Pl <= p1r &&
-                L2Pl >= p1l &&
-                L2Pb >= p1t &&
-                L2Pb <= p1b &&
-                L2Pt <= p1b
-                ) {
-                attackCounter2 += 1;
-                if (attackCounter2 == 1) {
-                    user1.setHP(user1.getHP() - user2.getKA());
-                    console.log("user1 HP: " + user1.getHP());
-                }
-                }
- 
+   if (actionList["."]==false&&isKicking2==true) {
+        actionGate2+=1
+        leg2.classList.remove("leg");
+        if (p1Position > p2Position) {
+          leg2.classList.add("kick");
+          const L = document.getElementsByClassName("kick")[0];
+          if (
+            L2Pr >= p1l &&
+            L2Pr <= p1r &&
+            L2Pb >= p1t &&
+            L2Pb <= p1b &&
+            L2Pt <= p1b
+          ) {
+            attackCounter2 += 1;
+            if (attackCounter2 == 1) {
+              
+            if(actionList["ArrowRight"]){
+              isGuard1=true
+              player1.style.background="dodgerblue"
+              setTimeout(function(){
+                player1.style.background="#fa0505"
+                console.log("function works")
+                isGuard1=false 
+                 },500  
+                
+              )
             }
-            if (p1Position > p2Position) {
-                leg2.classList.add("kick");
-                const L = document.getElementsByClassName("kick")[0];
-                if (
-                L2Pr >= p1l &&
-                L2Pr <= p1r &&
-                L2Pb >= p1t &&
-                L2Pb <= p1b &&
-                L2Pt <= p1b
-                ) {
-                attackCounter2 += 1;
-                if (attackCounter2 == 1) {
-                    user1.setHP(user1.getHP() - user2.getKA());
-                    console.log("user1 HP: " + user1.getHP());
-                }
-                }
-
+            else{
+              user1.setHP(user1.getHP() - user2.getKA());
+              console.log("user1 HP: " + user1.getHP());
+              Damage(user1,user2,false)
             }
-        
+              
+            }
+          }
+          L.addEventListener("animationend",function rmKicking(){
+              attackCounter2 = 0;
+              leg2.classList.remove("kick");
+              leg2.classList.add("leg");
+              actionGate2 = 0;
+              isKicking2=false
+          })
+          
+        }
+        if (p1Position <= p2Position) {
+          leg2.classList.add("kickReverse");
+          const L = document.getElementsByClassName("kickReverse")[0];
+          
+          if (
+            L2Pl <= p1r &&
+            L2Pl >= p1l &&
+            L2Pb >= p1t &&
+            L2Pb <= p1b &&
+            L2Pt <= p1b
+          ) {
+            attackCounter2 += 1;
+            if (attackCounter2 == 1) {
+              if(actionList["ArrowLeft "]){
+              isGuard1=true
+              player1.style.background="dodgerblue"
+              setTimeout(function(){
+                player1.style.background="#fa0505"
+                console.log("function works")
+                isGuard1=false 
+                 },500  
+                
+              )
+            }
+            else{
+              user1.setHP(user1.getHP() - user2.getKA());
+              console.log("user1 HP: " + user1.getHP());
+              Damage(user1,user2,false)
+            }
+              
+            }
+          }
+          L.addEventListener("animationend",function rmKicking(){
+            attackCounter2 = 0;
+            leg2.classList.remove("kickReverse");
+            leg2.classList.add("leg");
+            actionGate2=0
+            isKicking2=false
+          })
+        }
       
     }
-    if(actionList["."]==false){
-      if(p1Position>=p2Position){
-        attackCounter2 = 0;
-        leg2.classList.remove("kick");
-        leg2.classList.add("leg");
-        actionGate2 = 0;
-      }
-      else{
-        attackCounter2 = 0;
-        leg2.classList.remove("kickReverse");
-        leg2.classList.add("leg");
-        actionGate2=0
-      }
-
-    }
-
       if(actionList["/"]) {
       console.log("/");
         actionGate2+=1
